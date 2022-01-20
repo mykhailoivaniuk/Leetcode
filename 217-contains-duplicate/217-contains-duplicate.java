@@ -15,7 +15,6 @@ class Solution {
                 counts.put(num,1);
             }
         }
-        System.out.println(counts.toString());
         return false;
     }
 }
