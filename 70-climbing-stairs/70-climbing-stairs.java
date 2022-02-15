@@ -8,15 +8,17 @@ class Solution {
             return 2;
         }
         
-        int[] possible_combos = new int[n];
-        possible_combos[0] = 1;
-        possible_combos[1] = 2;
+        int prev_2 = 1;
+        int prev_1 = 2;
         
         for (int i = 2; i < n; i++) {
-            possible_combos[i] = possible_combos[i-1] + possible_combos[i-2];
+            int next = prev_1 + prev_2;
+            prev_2 = prev_1;
+            prev_1 = next;
+            
         }
         
-        return possible_combos[n-1];
+        return prev_1;
         
     }
 }
