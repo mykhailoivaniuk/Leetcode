@@ -41,19 +41,14 @@ class Solution:
         endPtr = self.reverseList(middle)
         startPtr = head
     
-        while startPtr is not None and endPtr is not None:
-            # so we either need to cutoff the lafes from each other
-            # or check when we reach that middle node
-            # this condition check will only happen for odd lists
-            if startPtr == endPtr:
-                break
-            cur.next = startPtr
-            startPtr = startPtr.next
-            cur = cur.next
-            
-            cur.next = endPtr
-            endPtr = endPtr.next
-            cur = cur.next
+
+        # More elegant list reversal
+        # Instead of having smth in the middle
+        # Point them to each other instead
+        while endPtr.next:
+            startPtr.next, startPtr = endPtr, startPtr.next
+            endPtr.next, endPtr = startPtr, endPtr.next
+
         
         return dummy.next
         
