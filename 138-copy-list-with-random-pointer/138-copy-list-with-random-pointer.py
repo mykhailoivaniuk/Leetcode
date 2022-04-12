@@ -8,42 +8,39 @@ class Node:
 """
 
 class Solution:
-    def copyRandomList(self, start: 'Optional[Node]') -> 'Optional[Node]':
-        # store reference to node in hashmap
-        # pass once copy usual pointers
-        # pass two copy random pointers
-        Node.print = lambda self: print(f'{self.val} {self.next}')
+    def copyRandomList(self, start: 'Optional[Node]') -> 'Optional[Node]':    
         if start is None:
             return None
         
-        dummy = Node(0)
-        
-        node_pointers = {}
-        prev = dummy
-        idx = 0
-        head = start
-        
-        #Linear Space Solution
-        while head:
-            copy_node = Node(head.val)
-            prev.next = copy_node
-            node_pointers[head] = copy_node
-            
-            prev = copy_node
-            head = head.next
-            idx += 1
-        
-        cur = dummy.next
-        head = start
+    
+        cur = start
+        #Constant Space Solution
         while cur:
-            if head.random is not None:
-                cur.random = node_pointers[head.random]
-            else:
-                cur.random = None
-            cur = cur.next
-            head = head.next
+            copy_node = Node(cur.val)
+            next = cur.next
+            
+            cur.next = copy_node
+            copy_node.next = next
+            cur = next
+            
+        cur = start
+        while cur and cur.next:
+            #copied_node = cur.next
+            if cur.random:
+                cur.next.random = cur.random.next
+            cur = cur.next.next
         
-        return dummy.next
+        cur = start
+        copied_head = cur.next
+        prev = None
+        while cur and cur.next:
+            if prev is not None:
+                prev.next = cur.next
+            prev = cur.next
+            cur.next = cur.next.next
+            cur = cur.next           
+            
+        return copied_head
             
             
             
