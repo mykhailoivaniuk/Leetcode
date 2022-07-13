@@ -1,22 +1,13 @@
 class Solution {
-    public int videoStitching(int[][] clips, int time) {
-        Arrays.sort(clips, (a, b) -> a[0] - b[0]);
-        System.out.println(Arrays.deepToString(clips));
-        int i = 0;
-        int count = 0;
-        int start = 0;
-        int end = 0;
-        int totalClips = clips.length;
-        while(start < time){
-            while(i < totalClips && clips[i][0] <= start){
+    public int videoStitching(int[][] clips, int T) {
+        int res = 0;
+        Arrays.sort(clips, (a,b) ->  a[0] - b[0]);
+        for (int i = 0, st = 0, end = 0; st < T; st = end, ++res) {
+            for (; i < clips.length && clips[i][0] <= st; ++i)
                 end = Math.max(end, clips[i][1]);
-                i++;
-            }
-            if(start == end) return -1;
-            start = end;
-            count++;
+            if (st == end) return -1;
         }
-        return count;
+        return res;
         
         
     }
