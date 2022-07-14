@@ -17,16 +17,20 @@ import java.util.*;
 import java.io.*;
 class Solution {
     private int maxCount; 
+    private int freq;
     
     public int[] findFrequentTreeSum(TreeNode root) {
-        List<Integer> res = new ArrayList();
         Map<Integer, Integer> counts = new HashMap();
-        int rootVal = dfs(root, counts);
+        dfs(root, counts);
+        int[] ans = new int[freq];
+        int idx = 0;
         for(Map.Entry<Integer, Integer> entry: counts.entrySet()){
-            if(entry.getValue() == maxCount) res.add(entry.getKey());
+            if(entry.getValue() == maxCount){
+                ans[idx++] = entry.getKey();
+            }
         }
         
-        return res.stream().mapToInt(i -> i).toArray();
+        return ans;
         
         
     }
@@ -35,7 +39,13 @@ class Solution {
         if(root != null){
             int res = root.val + dfs(root.left, counts) + dfs(root.right, counts);
             counts.put(res, counts.getOrDefault(res, 0) + 1);
-            maxCount = Math.max(maxCount, counts.get(res));
+             if(counts.get(res) == maxCount){
+                freq++;
+            }
+            if(counts.get(res) > maxCount){
+                freq = 1;
+                maxCount = counts.get(res);
+            }
             return res;
         }
         return 0;
