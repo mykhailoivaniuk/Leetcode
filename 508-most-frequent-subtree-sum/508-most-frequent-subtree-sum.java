@@ -16,24 +16,17 @@
 import java.util.*;
 import java.io.*;
 class Solution {
+    private int maxCount; 
+    
     public int[] findFrequentTreeSum(TreeNode root) {
         List<Integer> res = new ArrayList();
         Map<Integer, Integer> counts = new HashMap();
         int rootVal = dfs(root, counts);
-        System.out.println(counts.toString());
-        int curMax = Integer.MIN_VALUE;
         for(Map.Entry<Integer, Integer> entry: counts.entrySet()){
-            int val = entry.getKey();
-            int count = entry.getValue();
-            curMax = Math.max(curMax, count);
+            if(entry.getValue() == maxCount) res.add(entry.getKey());
         }
         
-        for(Map.Entry<Integer, Integer> entry: counts.entrySet()){
-            int count = entry.getValue();
-            if(count == curMax) res.add(entry.getKey());
-        }
-        int[] ans = res.stream().mapToInt(i -> i).toArray();
-        return ans;
+        return res.stream().mapToInt(i -> i).toArray();
         
         
     }
@@ -41,7 +34,8 @@ class Solution {
     public int dfs(TreeNode root, Map<Integer, Integer> counts){
         if(root != null){
             int res = root.val + dfs(root.left, counts) + dfs(root.right, counts);
-            counts.merge(res, 1, Integer::sum);
+            counts.put(res, counts.getOrDefault(res, 0) + 1);
+            maxCount = Math.max(maxCount, counts.get(res));
             return res;
         }
         return 0;
