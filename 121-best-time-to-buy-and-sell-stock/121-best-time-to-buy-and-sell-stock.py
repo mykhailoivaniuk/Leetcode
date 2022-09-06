@@ -5,7 +5,8 @@ class Solution:
         for i in range(len(prices)):
             if prices[i]< last_min:
                 last_min = prices[i]
-            diff = max(diff, prices[i] - last_min)
+            else:
+                diff = max(diff, prices[i] - last_min)
         
         return diff
         
